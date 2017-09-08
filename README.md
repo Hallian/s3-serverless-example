@@ -1,5 +1,14 @@
 # S3 static site hosting and serverless example
 
+## Get started
+
+```
+npm install
+serverless deploy
+OR
+npm run deploy
+```
+
 ## Get SDK
 
 ```
