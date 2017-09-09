@@ -73,12 +73,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 function todos(event, context, callback) {
 	let body;
 
+	const inputBody = event.body && JSON.parse(event.body);
+
 	switch (event.httpMethod) {
 		case 'POST':
-			body = { title: 'mock new todo', done: false };
+			body = { title: inputBody.title, done: inputBody.done || false };
 			break;
 		case 'PUT':
-			body = { title: 'mock updated todo', done: true };
+			body = { title: 'mock updated todo', done: true, input: event };
 			break;
 		case 'GET':
 			body = [{ title: 'mock new todo', done: false }, { title: 'mock updated todo', done: true }, { title: 'mock other todo', done: true }, { title: 'mock yet another todo', done: false }];
@@ -88,7 +90,7 @@ function todos(event, context, callback) {
 	const response = {
 		statusCode: 200,
 		headers: {
-			"Access-Control-Allow-Origin": "http://localhost:3000", // Required for CORS support to work
+			"Access-Control-Allow-Origin": "*", // Required for CORS support to work
 			"Access-Control-Allow-Credentials": true // Required for cookies, authorization headers with HTTPS
 		},
 		body: JSON.stringify(body)

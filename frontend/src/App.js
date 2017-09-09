@@ -1,42 +1,53 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import * as Api from './Api';
+
 
 class App extends Component {
-  constructor(props) {
-    super(props)
-    // console.log(props)
-    // this.listTodos()
-  }
+    constructor(props) {
+        super(props)
+            // console.log(props)
+        this.state = {
+            todos: [],
+            newTodoTitle: ''
+        }
+        this.listTodos()
+    }
 
-  // async listTodos() {
-  //   const todos = await Api.listTodos()
-  //   console.log(todos)
-  //   this.todos = todos.message
-  //   // this.todos = await todos.json().message
-  //   // console.log(await todos.json())
-  // }
+    async listTodos() {
+        this.setState({
+            todos: await Api.listTodos()
+        });
+    }
 
-  create() {
-    console.log('create new')
-  }
+    async create() {
+        const result = await Api.createTodo(this.state.newTodoTitle, false)
+        console.log(result);
+    }
 
-  render() {
-    const rows = this.props.todos.map((todo, key) =>
-        <li className={todo.done ? 'todo done' : 'todo not-done'} key={key}>
-            {todo.title} <input type="checkbox" checked={todo.done} />
-        </li>)
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to Todo9000</h2>
-        </div>
-        <input type="text" /><button onClick={this.create}>create</button>
-        <ul className="todos">{rows}</ul>
-      </div>
-    );
-  }
+    onNewTodoTitleChange(event) {
+        this.setState({
+            newTodoTitle: event.target.value
+        });
+    }
+
+    render() {
+        const rows = this.state.todos.map((todo, key) =>
+            <li className={todo.done ? 'todo done' : 'todo not-done'} key={key}>
+                {todo.title} <input type="checkbox" checked={todo.done} />
+            </li>)
+        return (
+          <div className="App">
+            <div className="App-header">
+              <img src={logo} className="App-logo" alt="logo" />
+              <h2>Welcome to Todo9000</h2>
+            </div>
+            <input type="text" onChange={this.onNewTodoTitleChange.bind(this)} /><button onClick={this.create.bind(this)}>create</button>
+            <ul className="todos">{rows}</ul>
+          </div>
+        );
+    }
 }
 
 export default App;
