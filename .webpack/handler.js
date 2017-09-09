@@ -71,23 +71,27 @@
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (immutable) */ __webpack_exports__["todos"] = todos;
 function todos(event, context, callback) {
-	let message;
+	let body;
 
 	switch (event.httpMethod) {
 		case 'POST':
-			message = 'create something';break;
+			body = { title: 'mock new todo', done: false };
+			break;
 		case 'PUT':
-			message = 'update something';break;
+			body = { title: 'mock updated todo', done: true };
+			break;
 		case 'GET':
-			message = 'list something';break;
+			body = [{ title: 'mock new todo', done: false }, { title: 'mock updated todo', done: true }, { title: 'mock other todo', done: true }, { title: 'mock yet another todo', done: false }];
+			break;
 	}
 
 	const response = {
 		statusCode: 200,
-		body: JSON.stringify({
-			message,
-			input: event
-		})
+		headers: {
+			"Access-Control-Allow-Origin": "http://localhost:3000", // Required for CORS support to work
+			"Access-Control-Allow-Credentials": true // Required for cookies, authorization headers with HTTPS
+		},
+		body: JSON.stringify(body)
 	};
 
 	callback(null, response);

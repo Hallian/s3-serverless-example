@@ -1,0 +1,26 @@
+[
+    {
+        "url": "https://55p50zzx9b.execute-api.eu-west-1.amazonaws.com/dev/todos/create", 
+        "path": "/todos/create", 
+        "methods": {
+            "POST": {}, 
+            "OPTIONS": {}
+        }
+    }, 
+    {
+        "url": "https://55p50zzx9b.execute-api.eu-west-1.amazonaws.com/dev/todos/list", 
+        "path": "/todos/list", 
+        "methods": {
+            "OPTIONS": {}, 
+            "GET": {}
+        }
+    }, 
+    {
+        "url": "https://55p50zzx9b.execute-api.eu-west-1.amazonaws.com/dev/todos/update/{id}", 
+        "path": "/todos/update/{id}", 
+        "methods": {
+            "PUT": {}, 
+            "OPTIONS": {}
+        }
+    }
+]

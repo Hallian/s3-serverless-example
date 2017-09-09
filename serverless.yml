@@ -22,13 +22,20 @@ provider:
   runtime: nodejs6.10
   region: eu-west-1
   stage: dev
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - dynamodb:DescribeTable
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource:
+        "Fn::GetAtt": [ todoTable, Arn ]
 
 # you can add statements to the Lambda function's IAM Role here
-#  iamRoleStatements:
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:ListBucket"
-#      Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
 #    - Effect: "Allow"
 #      Action:
 #        - "s3:PutObject"
@@ -59,12 +66,19 @@ functions:
       - http:
           path: todos/list
           method: get
+          cors: true
       - http:
-          path: todos/update
+          path: todos/update/{id}
           method: put
+          cors: true
+          request:
+            parameters:
+              paths:
+                id: true
       - http:
           path: todos/create
           method: post
+          cors: true
 #    The following are a
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
@@ -111,7 +125,7 @@ plugins:
 # you can add CloudFormation resource templates here
 resources:
   Resources:
-    todoDynamoDBTable:
+    todoTable:
       Type: "AWS::DynamoDB::Table"
       Properties:
         AttributeDefinitions:
@@ -131,7 +145,6 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: "5"
           WriteCapacityUnits: "5"
-        TableName: "todo"
         GlobalSecondaryIndexes:
           -
             IndexName: "todoGSI"
@@ -157,4 +170,4 @@ Outputs:
   TodoTableArn:
     Description: "Todo Table Arn"
     Value:
-      "Fn::GetAtt": [ todoDynamoDBTable, Arn ]
+      "Fn::GetAtt": [ todoTable, Arn ]
