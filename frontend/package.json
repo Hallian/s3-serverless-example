@@ -12,9 +12,16 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "deploy": "npm run build && npm run upload",
+    "upload": "bash scripts/upload.sh",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "get-path-config": "bash ../scripts/get-path-config.sh > src/path.config.json"
+    "get-path-config": "bash ../scripts/get-path-config.sh > src/path.config.json",
+    "create-stack": "aws cloudformation create-stack --stack-name todo-example-frontend --template-body file://frontend.cloudformation.yml",
+    "update-stack": "aws cloudformation update-stack --stack-name todo-example-frontend --template-body file://frontend.cloudformation.yml",
+    "describe-stack": "aws cloudformation describe-stacks --stack-name todo-example-frontend",
+    "remove-stack": "aws cloudformation delete-stack --stack-name todo-example-frontend",
+    "delete-stack": "aws cloudformation delete-stack --stack-name todo-example-frontend"
   },
   "devDependencies": {}
 }
