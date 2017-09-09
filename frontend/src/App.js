@@ -12,6 +12,7 @@ class App extends Component {
             todos: [],
             newTodoTitle: ''
         }
+        setInterval(this.listTodos.bind(this), 60 * 1000)
         this.listTodos()
     }
 
