@@ -24,6 +24,6 @@ const makeApiRequest = async (path, method, params) => (await fetch(requestFacto
 
 export const listTodos = () => makeApiRequest('/todos/list', 'GET')
 
-export const updateTodo = (id, title, done) => makeApiRequest('/todos/update/{id}', 'PUT', { url: { id }, body: { title, done } })
+export const updateTodo = (title, done) => makeApiRequest('/todos/update/{id}', 'PUT', { url: { id: title }, body: { title, done } })
 
 export const createTodo = (title, done) => makeApiRequest('/todos/create', 'POST', { body: { title, done } })
