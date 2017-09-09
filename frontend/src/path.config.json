@@ -20,7 +20,8 @@
         "path": "/todos/update/{id}", 
         "methods": {
             "PUT": {}, 
-            "OPTIONS": {}
+            "OPTIONS": {}, 
+            "DELETE": {}
         }
     }
 ]

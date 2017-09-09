@@ -20,10 +20,12 @@ const requestFactory = (path, method, params = {}) => {
 	})
 }
 
-const makeApiRequest = async (path, method, params) => (await fetch(requestFactory(path, method, params))).json()
+const makeApiRequest = async (path, method, params) => (await fetch(requestFactory(path, method, params))).json().catch(e => console.error(e))
 
 export const listTodos = () => makeApiRequest('/todos/list', 'GET')
 
 export const updateTodo = (title, done) => makeApiRequest('/todos/update/{id}', 'PUT', { url: { id: title }, body: { title, done } })
+
+export const deleteTodo = (title) => makeApiRequest('/todos/update/{id}', 'DELETE', { url: { id: title } })
 
 export const createTodo = (title, done) => makeApiRequest('/todos/create', 'POST', { body: { title, done } })

@@ -77,6 +77,14 @@ functions:
               paths:
                 id: true
       - http:
+          path: todos/update/{id}
+          method: delete
+          cors: true
+          request:
+            parameters:
+              paths:
+                id: true
+      - http:
           path: todos/create
           method: post
           cors: true

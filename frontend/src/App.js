@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import logo from './logo.svg'
 import './App.css'
+import 'font-awesome/css/font-awesome.min.css'
 import 'purecss/build/pure.css'
 import * as Api from './Api'
 
@@ -36,6 +37,14 @@ class App extends Component {
         }
     }
 
+    delete(title) {
+        return async (event) => {
+            event.stopPropagation()
+            await Api.deleteTodo(title)
+            this.listTodos()
+        }
+    }
+
     onNewTodoTitleChange(event) {
         this.setState({
             newTodoTitle: event.target.value
@@ -59,6 +68,7 @@ class App extends Component {
                     <label htmlFor={todo.title}>
                         {todo.title}
                     </label>
+                    <i className="fa fa-trash-o delete-todo" onClick={this.delete(todo.title).bind(this)}></i>
                 </li>
             )
             return (<ul className="todos">{rows}</ul>)

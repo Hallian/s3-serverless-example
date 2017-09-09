@@ -43,6 +43,16 @@
     padding: 0.5em;
 }
 
+.todos .todo .delete-todo {
+    float: right;
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.todos .todo .delete-todo:hover {
+    opacity: 1;
+}
+
 .todos .todo:nth-child(odd) {
     background: #f9f9f9;    
 }
