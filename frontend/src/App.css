@@ -1,17 +1,23 @@
 .App {
-  text-align: center;
 }
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px;
+  float: left;
 }
 
 .App-header {
   background-color: #222;
-  height: 150px;
+  height: 80px;
   padding: 20px;
   color: white;
+}
+
+.content {
+    max-width: 768px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .App-intro {
@@ -23,6 +29,51 @@
   to { transform: rotate(360deg); }
 }
 
+.todos {
+    list-style: none;
+    padding: 0;
+}
+
+.empty-list {
+    text-align: center;
+    color: #cacaca;
+}
+
+.todos .todo {
+    padding: 0.5em;
+}
+
+.todos .todo:nth-child(odd) {
+    background: #f9f9f9;    
+}
+
+.todos .todo input[type=checkbox] {
+    margin-right: 10px;
+}
+
 .todos .todo.done {
     text-decoration: line-through;
+}
+
+.pure-form.add-todo-form {
+    width: 100%;
+}
+
+.pure-form.add-todo-form button,
+.pure-form.add-todo-form input[type=text] {
+    height: 36px;
+}
+
+.pure-form.add-todo-form input[type=text] {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.pure-form.add-todo-form button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.separator {
+    border-top: 4px dashed #f0f0f0;
 }
