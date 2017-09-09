@@ -49,6 +49,11 @@
     cursor: pointer;
 }
 
+.todos .todo:hover,
+.todos .todo:nth-child(odd):hover {
+    background: #f5f5f5;
+}
+
 .todos .todo .delete-todo:hover {
     opacity: 1;
 }
