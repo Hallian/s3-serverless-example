@@ -3,7 +3,6 @@ import logo from './logo.svg'
 import './App.css'
 import 'purecss/build/pure.css'
 import * as Api from './Api'
-import { sortBy } from 'lodash';
 
 class App extends Component {
     constructor(props) {
@@ -23,19 +22,17 @@ class App extends Component {
 
     async create(event) {
         event.preventDefault();
-        const result = await Api.createTodo(this.state.newTodoTitle, false)
-        console.log(result)
+        await Api.createTodo(this.state.newTodoTitle, false)
         this.listTodos()
+        this.setState({
+            newTodoTitle: ''
+        })
     }
 
     update(title, done) {
         return async (event) => {
-            const result = await Api.updateTodo(title, !done)
-            console.log(result)
+            await Api.updateTodo(title, !done)
             this.listTodos()
-            this.setState({
-                newTodoTitle: ''
-            })
         }
     }
 
@@ -46,13 +43,11 @@ class App extends Component {
     }
 
     render() {
-        // const todos = sortBy(this.state.todos || [], ['done'])
-        // const todos = this.state.todos || []
         const doneTodos = this.state.todos.filter(todo => todo.done)
         const notDoneTodos = this.state.todos.filter(todo => !todo.done)
 
         const makeRows = (todos, empty) => {
-            if (todos.length == 0)
+            if (todos.length === 0)
                 return (<div className="empty-list">
                     <h1>{empty.line1}</h1>
                     <h2>{empty.line2}</h2>
@@ -82,7 +77,7 @@ class App extends Component {
             <div className="content">
                 <form className="pure-form add-todo-form">
                     <fieldset>
-                        <input type="text" className="pure-u-4-5" onChange={this.onNewTodoTitleChange.bind(this)} placeholder="What needs to get done?" />
+                        <input type="text" className="pure-u-4-5" value={this.state.newTodoTitle} onChange={this.onNewTodoTitleChange.bind(this)} placeholder="What needs to get done?" />
                         <button className="pure-button pure-u-1-5 pure-button-primary" onClick={this.create.bind(this)}>create</button>
                     </fieldset>
                 </form>
