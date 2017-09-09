@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import logo from './logo.svg'
 import './App.css'
 import * as Api from './Api'
-
+import { sortBy } from 'lodash';
 
 class App extends Component {
     constructor(props) {
@@ -27,9 +27,9 @@ class App extends Component {
         this.listTodos()
     }
 
-    update(key) {
+    update(title, done) {
         return async (event) => {
-            const result = await Api.updateTodo(this.state.todos[key].title, true)
+            const result = await Api.updateTodo(title, !done)
             console.log(result)
             this.listTodos()
         }
@@ -42,9 +42,10 @@ class App extends Component {
     }
 
     render() {
-        const rows = this.state.todos.map((todo, key) =>
+        const todos = sortBy(this.state.todos || [], 'done')
+        const rows = todos.map((todo, key) =>
             <li className={todo.done ? 'todo done' : 'todo not-done'} key={key}>
-                {todo.title} <input type="checkbox" checked={todo.done} onChange={this.update(key).bind(this)} />
+                {todo.title} <input type="checkbox" checked={todo.done} onChange={this.update(todo.title, todo.done).bind(this)} />
             </li>
         )
         return (

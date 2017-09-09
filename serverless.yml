@@ -22,6 +22,7 @@ provider:
   runtime: nodejs6.10
   region: eu-west-1
   stage: dev
+  memorySize: 256
   iamRoleStatements:
     - Effect: "Allow"
       Action:
@@ -132,16 +133,10 @@ resources:
           -
             AttributeName: "title"
             AttributeType: "S"
-          -
-            AttributeName: "done"
-            AttributeType: "N"
         KeySchema:
           -
             AttributeName: "title"
             KeyType: "HASH"
-          -
-            AttributeName: "done"
-            KeyType: "RANGE"
         ProvisionedThroughput:
           ReadCapacityUnits: "5"
           WriteCapacityUnits: "5"
@@ -152,9 +147,6 @@ resources:
               -
                 AttributeName: "title"
                 KeyType: "HASH"
-              -
-                AttributeName: "done"
-                KeyType: "RANGE"
             Projection:
               NonKeyAttributes:
                 - "description"
@@ -166,8 +158,8 @@ resources:
 #      Type: AWS::S3::Bucket
 #      Properties:
 #        BucketName: my-new-bucket
-Outputs:
-  TodoTableArn:
-    Description: "Todo Table Arn"
-    Value:
-      "Fn::GetAtt": [ todoTable, Arn ]
+  Outputs:
+    TodoTableArn:
+      Description: "Todo Table Arn"
+      Value:
+        "Fn::GetAtt": [ todoTable, Arn ]
