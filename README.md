@@ -19,6 +19,28 @@ npm run get-path-config
 npm run deploy
 ```
 
+# Serverless
+
+Backend functionalities are implemented using the serverless framework and AWS Lambda functions.
+Data is stored in a DynamoDB table that is also setup by serverless via CloudFormation.
+
+## Deploy
+
+Deploying serverless services is simple. Just run the deploy command as follows.
+
+```
+serverless deploy
+```
+
+This will setup the Lambda scripts and ApiGateway required by the http events. It will also setup a DynamoDB table,
+and related IAM privileges, for storing todos.
+
+If you only need to update the function code you can do that as well without updating the CloudFormation resources.
+
+```
+serverless deploy function -f todos
+```
+
 # Frontend
 
 The frontend is a simple Todo application written in React.
@@ -43,35 +65,25 @@ aws cloudformation create-stack \
 	--template-body file://frontend.cloudformation.yml
 ```
 
-Since that is somewhat cumbersome, the `package.json`s scripts section has it defined so you can also run:
+After our stack has been created, we can upload our frontend to the bucket. But first we need the actual bucket name.
+You can obtain that from the stack outputs with `aws` cli.
 
 ```
-npm run create-stack
-``` 
-
-# Serverless
-
-Backend functionalities are implemented using the serverless framework and AWS Lambda functions.
-Data is stored in a DynamoDB table that is also setup by serverless via CloudFormation.
-
-## Deploy
-
-Deploying serverless services is simple. Just run the deploy command as follows.
-
-```
-serverless deploy
+aws cloudformation describe-stacks --stack-name todo-example-frontend
 ```
 
-This will setup the Lambda scripts and ApiGateway required by the http events. It will also setup a DynamoDB table,
-and related IAM privileges, for storing todos.
-
-If you only need to update the function code you can do that as well without updating the CloudFormation resources.
+Now we can upload our frontend to the S3 bucket with `aws` and we're all set!
 
 ```
-serverless deploy function -f todos
+npm run build
+aws s3 sync build s3://$BUCKET
 ```
 
-### Get generated SDK
+See [frontend/README.md](frontend/README.md) for more info.
+
+### Get generated SDK (optional)
+
+*This section is only left here for reference*
 
 You can use the `aws` cli to download a generated SDK from the AWS ApiGateway service. The JavaScript SDK
 however seems to be meant for the browser and would not play nice with webpack so this project uses a simple
@@ -79,7 +91,7 @@ fetch based API SDK found in `frontend/src/Api.js`.
 
 ```
 aws apigateway get-rest-apis --query "items[?name == 'dev-todo-example'].id" --output text
-aws apigateway get-sdk --rest-api-id dmxjrlz5ck --stage-name dev --sdk-type javascript sdk.zip
+aws apigateway get-sdk --rest-api-id $API_ID --stage-name dev --sdk-type javascript sdk.zip
 unzip sdk.zip
 ```
 
