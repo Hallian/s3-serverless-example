@@ -4,7 +4,6 @@ import pathConfig from './path.config.json'
 const getPathConfig = (path) => find(pathConfig, { path })
 
 const requestFactory = (path, method, params = {}) => {
-	path = getPathConfig(path)
 	method = method.toUpperCase()
 	if (!Object.keys(path.methods).includes(method))
 		throw new Error(`Method ${method} not supported by ${path.path}`)
@@ -20,7 +19,7 @@ const requestFactory = (path, method, params = {}) => {
 	})
 }
 
-const makeApiRequest = async (path, method, params) => (await fetch(requestFactory(path, method, params))).json().catch(e => console.error(e))
+const makeApiRequest = async (path, method, params) => (await fetch(requestFactory(getPathConfig(path), method, params))).json().catch(e => console.error(e))
 
 export const listTodos = () => makeApiRequest('/todos/list', 'GET')
 
